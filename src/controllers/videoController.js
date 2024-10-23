@@ -1,5 +1,5 @@
 export const home = (rea, res) => {
-  return res.send("Home");
+  return res.render("home", { pageTitle: "Home" });
 };
 
 export const searchVideo = (rea, res) => {
@@ -11,7 +11,7 @@ export const uploadVideo = (rea, res) => {
 };
 
 export const watchVideo = (rea, res) => {
-  return res.send("Watch Video");
+  return res.render("watch-video", { pageTitle: "Video" });
 };
 
 export const editVideo = (rea, res) => {
