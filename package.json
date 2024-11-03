@@ -2,11 +2,12 @@
   "name": "wetube-clone",
   "version": "1.0.0",
   "scripts": {
-    "server": "nodemon --exec babel-node src/server.js"
+    "start": "nodemon --exec babel-node src/init.js"
   },
   "license": "ISC",
   "dependencies": {
     "express": "^4.21.1",
+    "mongoose": "^8.8.0",
     "morgan": "^1.10.0",
     "pug": "^3.0.3"
   },

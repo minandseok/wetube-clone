@@ -1,5 +1,11 @@
 extends layout.pug
+include mixins/video.pug
 
 block content
-    
-        
+    form
+        input(name="search" type="text" placeholder="Search" value=search ? search : "")
+        input(type="submit", value="Search")
+    ul
+        each video in videos
+            li
+                +video(video)

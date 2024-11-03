@@ -11,10 +11,12 @@ html(lang="en")
             nav 
                 ul 
                     li 
+                        a(href="/") Home
+                    li 
                         a(href="/login") Login
                     li 
-                        a(href="/user/:id/logout") Log out
+                        a(href="/video/upload") Upload Video
         main 
             block content
 
-        footer &copy; #{new Date().getFullYear()} Wetube
+        include includes/footer
