@@ -3,7 +3,7 @@ html(lang="en")
     head
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title Wetube | #{pageTitle}
+        title #{siteName} | #{pageTitle}
         link(rel="stylesheet" href="https://unpkg.com/mvp.css")
     body 
         header
@@ -12,10 +12,18 @@ html(lang="en")
                 ul 
                     li 
                         a(href="/") Home
-                    li 
-                        a(href="/login") Login
-                    li 
-                        a(href="/video/upload") Upload Video
+                    if loggedIn
+                        li 
+                            a(href="/profile") #{loggedInUser.username}
+                        li 
+                            a(href="/video/upload") Upload
+                        li 
+                            a(href="/logout") Logout
+                    else
+                        li 
+                            a(href="/join") Join
+                        li 
+                            a(href="/login") Login
         main 
             block content
 
