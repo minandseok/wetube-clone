@@ -13,8 +13,6 @@ export const home = async (req, res) => {
     }).sort({ date: "desc" });
   }
 
-  console.log(req.session);
-
   return res.status(400).render("home", { pageTitle: "Home", videos, search });
 };
 
