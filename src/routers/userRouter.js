@@ -1,20 +1,40 @@
 import express from "express";
 import {
   deleteUser,
-  editUser,
   finishGitHubLogin,
+  getCreatePassword,
+  getEditProfile,
   logout,
+  postCreatePassword,
+  postEditProfile,
   profile,
   startGitHubLogin,
 } from "../controllers/userController";
+import { protectorMiddleware, publicOnlyMiddleware } from "../middlewares";
 
 const userRouter = express.Router();
 
-userRouter.get("/logout", logout);
-userRouter.get("/:id(\\d+)", profile);
-userRouter.get("/:id(\\d+)/edit", editUser);
-userRouter.get("/:id(\\d+)/delete", deleteUser);
-userRouter.get("/github/start", startGitHubLogin);
-userRouter.get("/github/finish", finishGitHubLogin);
+// /:id(\\d+)
+userRouter.route("/logout").all(protectorMiddleware).get(logout);
+userRouter.route("/profile").all(protectorMiddleware).get(profile);
+userRouter
+  .route("/create-password")
+  .all(protectorMiddleware)
+  .get(getCreatePassword)
+  .post(postCreatePassword);
+userRouter
+  .route("/edit")
+  .all(protectorMiddleware)
+  .get(getEditProfile)
+  .post(postEditProfile);
+userRouter.route("/delete").all(protectorMiddleware).get(deleteUser);
+userRouter
+  .route("/github/start")
+  .all(publicOnlyMiddleware)
+  .get(startGitHubLogin);
+userRouter
+  .route("/github/finish")
+  .all(publicOnlyMiddleware)
+  .get(finishGitHubLogin);
 
 export default userRouter;

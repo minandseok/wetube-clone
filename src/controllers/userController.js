@@ -1,5 +1,8 @@
+import session from "express-session";
 import User from "../models/User";
 import bcrypt from "bcrypt";
+
+// todo: session에 user의 비밀번호가 저장되지 않도록 하자.
 
 export const getJoin = (req, res) => {
   return res.status(400).render("join", { pageTitle: "Join" });
@@ -155,11 +158,116 @@ export const logout = (req, res) => {
 };
 
 export const profile = (req, res) => {
-  return res.send("Profile");
+  return res.render("profile", { pageTitle: "Profile" });
 };
 
-export const editUser = (req, res) => {
-  return res.send("Edit User");
+export const getCreatePassword = (req, res) => {
+  return res.status(400).render("create-password", {
+    pageTitle: "Create a Password",
+  });
+};
+
+export const postCreatePassword = async (req, res) => {
+  const {
+    session: {
+      user: { _id },
+    },
+    body: { password, password2 },
+  } = req;
+
+  if (password !== password2 || !password) {
+    return res.status(400).render("create-password", {
+      pageTitle: "Create a Password",
+      errorMessage: "Please Check the Password.",
+    });
+  }
+
+  const updateUser = await User.findByIdAndUpdate(
+    _id,
+    {
+      password,
+    },
+    { new: true }
+  );
+
+  req.session.user = updateUser;
+
+  return res.redirect("/user/edit");
+};
+
+export const getEditProfile = (req, res) => {
+  const {
+    session: {
+      user: { password },
+    },
+  } = req;
+  if (password === "") {
+    return res.redirect("create-password");
+  }
+  return res.render("edit-profile", { pageTitle: "Edit Profile" });
+};
+
+export const postEditProfile = async (req, res) => {
+  const {
+    session: {
+      user: {
+        _id,
+        password: currentPassword,
+        email: currentEmail,
+        username: currentUsername,
+      },
+    },
+    body: { email, name, username, password },
+  } = req;
+  const pageTitle = "Edit Profile";
+
+  // 현재 비밀번호 확인
+  const ok = await bcrypt.compare(password, currentPassword);
+  if (!ok) {
+    return res.status(400).render("edit-profile", {
+      pageTitle,
+      errorMessage: "Wrong passsword.",
+    });
+  }
+
+  // 이메일 중복 확인
+  if (email !== currentEmail) {
+    const emailExists = await User.findOne({ email });
+    console.log(emailExists);
+
+    if (emailExists) {
+      return res.status(400).render("edit-profile", {
+        pageTitle,
+        errorMessage: "This email is already in use.",
+      });
+    }
+  }
+
+  // 사용자 이름 중복 확인
+  if (username !== currentUsername) {
+    const usernameExists = await User.findOne({ username });
+    if (usernameExists) {
+      return res.status(400).render("edit-profile", {
+        pageTitle,
+        errorMessage: "This username is already in use.",
+      });
+    }
+  }
+
+  // 프로필 업데이트
+  const updateUser = await User.findByIdAndUpdate(
+    _id,
+    {
+      email,
+      name,
+      username,
+    },
+    { new: true }
+  );
+
+  req.session.user = updateUser;
+
+  return res.redirect("/user/edit");
 };
 
 export const deleteUser = (req, res) => {
