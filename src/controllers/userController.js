@@ -270,6 +270,67 @@ export const postEditProfile = async (req, res) => {
   return res.redirect("/user/edit");
 };
 
+export const getChangePassword = (req, res) => {
+  return res.render("change-password", { pageTitle: "Change Password" });
+};
+
+export const postChangePassword = async (req, res) => {
+  const {
+    session: {
+      user: { _id, password: currentPassword },
+    },
+    body: { password, password2, password3 },
+  } = req;
+  const pageTitle = "Change Password";
+
+  /* 
+  const user = await User.findById(_id);
+  const ok = await bcrypt.compare(oldPassword, user.password);
+  if (!ok) {
+    return res.status(400).render("users/change-password", {
+      pageTitle: "Change Password",
+      errorMessage: "The current password is incorrect",
+    });
+  }
+  if (newPassword !== newPasswordConfirmation) {
+    return res.status(400).render("users/change-password", {
+      pageTitle: "Change Password",
+      errorMessage: "The password does not match the confirmation",
+    });
+  }
+  user.password = newPassword;
+  await user.save(); */
+
+  // 현재 비밀번호 확인
+  const ok = await bcrypt.compare(password, currentPassword);
+  if (!ok) {
+    return res.status(400).render("change-password", {
+      pageTitle,
+      errorMessage: "Wrong passsword.",
+    });
+  }
+
+  // 새로운 비밀번호 확인
+  if (password2 !== password3 || !password2) {
+    return res.status(400).render("change-password", {
+      pageTitle,
+      errorMessage: "Please Check the Password.",
+    });
+  }
+
+  const updateUser = await User.findByIdAndUpdate(
+    _id,
+    {
+      password: password2,
+    },
+    { new: true }
+  );
+
+  req.session.user = updateUser;
+
+  return res.redirect("/user/edit");
+};
+
 export const deleteUser = (req, res) => {
   return res.send("Delete User");
 };

@@ -2,9 +2,11 @@ import express from "express";
 import {
   deleteUser,
   finishGitHubLogin,
+  getChangePassword,
   getCreatePassword,
   getEditProfile,
   logout,
+  postChangePassword,
   postCreatePassword,
   postEditProfile,
   profile,
@@ -22,6 +24,11 @@ userRouter
   .all(protectorMiddleware)
   .get(getCreatePassword)
   .post(postCreatePassword);
+userRouter
+  .route("/change-password")
+  .all(protectorMiddleware)
+  .get(getChangePassword)
+  .post(postChangePassword);
 userRouter
   .route("/edit")
   .all(protectorMiddleware)
