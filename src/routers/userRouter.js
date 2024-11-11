@@ -12,7 +12,11 @@ import {
   profile,
   startGitHubLogin,
 } from "../controllers/userController";
-import { protectorMiddleware, publicOnlyMiddleware } from "../middlewares";
+import {
+  protectorMiddleware,
+  publicOnlyMiddleware,
+  uploadFiles,
+} from "../middlewares";
 
 const userRouter = express.Router();
 
@@ -33,7 +37,7 @@ userRouter
   .route("/edit")
   .all(protectorMiddleware)
   .get(getEditProfile)
-  .post(postEditProfile);
+  .post(uploadFiles.single("avatar"), postEditProfile);
 userRouter.route("/delete").all(protectorMiddleware).get(deleteUser);
 userRouter
   .route("/github/start")
