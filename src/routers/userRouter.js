@@ -15,14 +15,17 @@ import {
 import {
   protectorMiddleware,
   publicOnlyMiddleware,
-  uploadFiles,
+  uploadAvatar,
 } from "../middlewares";
 
 const userRouter = express.Router();
 
 // /:id(\\d+)
 userRouter.route("/logout").all(protectorMiddleware).get(logout);
-userRouter.route("/profile").all(protectorMiddleware).get(profile);
+userRouter
+  .route("/profile/:id([0-9a-f]{24})")
+  .all(protectorMiddleware)
+  .get(profile);
 userRouter
   .route("/create-password")
   .all(protectorMiddleware)
@@ -37,7 +40,7 @@ userRouter
   .route("/edit")
   .all(protectorMiddleware)
   .get(getEditProfile)
-  .post(uploadFiles.single("avatar"), postEditProfile);
+  .post(uploadAvatar.single("avatar"), postEditProfile);
 userRouter.route("/delete").all(protectorMiddleware).get(deleteUser);
 userRouter
   .route("/github/start")

@@ -8,13 +8,14 @@ const videoSchema = new mongoose.Schema({
     maxLength: 60,
     minLength: 1,
   },
+  fileUrl: { type: String, required: true },
   description: { type: String, required: true, trim: true, maxLength: 200 },
   date: { type: Date, required: true, default: Date.now },
   hashtags: [{ type: String }],
   meta: {
     views: { type: Number, required: true, default: 0 },
-    rating: { type: Number, required: true, default: 0 },
   },
+  owner: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" },
 });
 
 // todo: 해시태그 양쪽 띄어쓰기 없애기

@@ -1,11 +1,12 @@
 import session from "express-session";
 import User from "../models/User";
 import bcrypt from "bcrypt";
+import Video from "../models/Video";
 
 // todo: session에 user의 비밀번호가 저장되지 않도록 하자.
 
 export const getJoin = (req, res) => {
-  return res.status(400).render("join", { pageTitle: "Join" });
+  return res.status(400).render("users/join", { pageTitle: "Join" });
 };
 
 export const postJoin = async (req, res) => {
@@ -14,7 +15,7 @@ export const postJoin = async (req, res) => {
   const pageTitle = "Join";
 
   if (password !== password2 || !password) {
-    return res.status(400).render("join", {
+    return res.status(400).render("users/join", {
       pageTitle,
       errorMessage: "Please Check the Password.",
     });
@@ -24,7 +25,7 @@ export const postJoin = async (req, res) => {
     $or: [{ username }, { email }],
   });
   if (exists) {
-    return res.status(400).render("join", {
+    return res.status(400).render("users/join", {
       pageTitle,
       errorMessage: "This Username or email is already taken.",
     });
@@ -39,7 +40,7 @@ export const postJoin = async (req, res) => {
     });
     return res.redirect("/login");
   } catch (error) {
-    return res.status(400).render("join", {
+    return res.status(400).render("users/join", {
       pageTitle,
       errorMessage: error._message,
     });
@@ -47,7 +48,7 @@ export const postJoin = async (req, res) => {
 };
 
 export const getLogin = (req, res) => {
-  return res.render("login", { pageTitle: "Login" });
+  return res.render("users/login", { pageTitle: "Login" });
 };
 
 export const postLogin = async (req, res) => {
@@ -57,7 +58,7 @@ export const postLogin = async (req, res) => {
   const pageTitle = "Login";
 
   if (!user) {
-    return res.status(400).render("login", {
+    return res.status(400).render("users/login", {
       pageTitle,
       errorMessage: "This username doesn't exists.",
     });
@@ -65,7 +66,7 @@ export const postLogin = async (req, res) => {
 
   const ok = await bcrypt.compare(password, user.password);
   if (!ok) {
-    return res.status(400).render("login", {
+    return res.status(400).render("users/login", {
       pageTitle,
       errorMessage: "Wrong passsword.",
     });
@@ -157,12 +158,30 @@ export const logout = (req, res) => {
   return res.redirect("/");
 };
 
-export const profile = (req, res) => {
-  return res.render("profile", { pageTitle: "Profile" });
+export const profile = async (req, res) => {
+  const { id } = req.params;
+  const {
+    user: { _id },
+  } = req.session;
+  const user = await User.findById(id).populate("videos");
+  if (!user) {
+    return res.status(404).render("404", { pageTitle: "User not found." });
+  }
+
+  let isOwner = true;
+  if (id !== _id) {
+    isOwner = false;
+  }
+
+  return res.render("users/profile", {
+    pageTitle: "Profile",
+    user,
+    isOwner,
+  });
 };
 
 export const getCreatePassword = (req, res) => {
-  return res.status(400).render("create-password", {
+  return res.status(400).render("users/create-password", {
     pageTitle: "Create a Password",
   });
 };
@@ -176,7 +195,7 @@ export const postCreatePassword = async (req, res) => {
   } = req;
 
   if (password !== password2 || !password) {
-    return res.status(400).render("create-password", {
+    return res.status(400).render("users/create-password", {
       pageTitle: "Create a Password",
       errorMessage: "Please Check the Password.",
     });
@@ -204,7 +223,7 @@ export const getEditProfile = (req, res) => {
   if (password === "") {
     return res.redirect("create-password");
   }
-  return res.render("edit-profile", { pageTitle: "Edit Profile" });
+  return res.render("users/edit-profile", { pageTitle: "Edit Profile" });
 };
 
 export const postEditProfile = async (req, res) => {
@@ -226,7 +245,7 @@ export const postEditProfile = async (req, res) => {
   // 현재 비밀번호 확인
   const ok = await bcrypt.compare(password, currentPassword);
   if (!ok) {
-    return res.status(400).render("edit-profile", {
+    return res.status(400).render("users/edit-profile", {
       pageTitle,
       errorMessage: "Wrong passsword.",
     });
@@ -238,7 +257,7 @@ export const postEditProfile = async (req, res) => {
     console.log(emailExists);
 
     if (emailExists) {
-      return res.status(400).render("edit-profile", {
+      return res.status(400).render("users/edit-profile", {
         pageTitle,
         errorMessage: "This email is already in use.",
       });
@@ -249,7 +268,7 @@ export const postEditProfile = async (req, res) => {
   if (username !== currentUsername) {
     const usernameExists = await User.findOne({ username });
     if (usernameExists) {
-      return res.status(400).render("edit-profile", {
+      return res.status(400).render("users/edit-profile", {
         pageTitle,
         errorMessage: "This username is already in use.",
       });
@@ -274,7 +293,7 @@ export const postEditProfile = async (req, res) => {
 };
 
 export const getChangePassword = (req, res) => {
-  return res.render("change-password", { pageTitle: "Change Password" });
+  return res.render("users/change-password", { pageTitle: "Change Password" });
 };
 
 export const postChangePassword = async (req, res) => {
@@ -307,7 +326,7 @@ export const postChangePassword = async (req, res) => {
   // 현재 비밀번호 확인
   const ok = await bcrypt.compare(password, currentPassword);
   if (!ok) {
-    return res.status(400).render("change-password", {
+    return res.status(400).render("users/change-password", {
       pageTitle,
       errorMessage: "Wrong passsword.",
     });
@@ -315,7 +334,7 @@ export const postChangePassword = async (req, res) => {
 
   // 새로운 비밀번호 확인
   if (password2 !== password3 || !password2) {
-    return res.status(400).render("change-password", {
+    return res.status(400).render("users/change-password", {
       pageTitle,
       errorMessage: "Please Check the Password.",
     });

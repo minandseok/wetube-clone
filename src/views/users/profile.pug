@@ -1,0 +1,19 @@
+extends ../layout 
+include ../mixins/video.pug
+
+block content
+    div 
+        ul 
+            li=loggedInUser.email
+            li=loggedInUser.name
+            li=loggedInUser.username
+    if isOwner
+        ul
+            li 
+                a(href="/user/edit") Edit
+            li 
+                a(href="/user/delete") Delete
+    each video in user.videos 
+        +video(video)
+    else 
+        span Not found.

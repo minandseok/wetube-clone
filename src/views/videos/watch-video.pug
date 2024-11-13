@@ -1,0 +1,17 @@
+extends ../layout 
+
+block content 
+    video(src="/" + video.fileUrl, controls)
+    div 
+        p=video.description
+        small=video.date
+    each hashtag in video.hashtags
+        small=hashtag
+    div 
+        small Uploaded By 
+        a(href=`/user/profile/${video.owner._id}`)=video.owner.name
+    if String(video.owner._id) === String(loggedInUser._id)
+        div
+            a(href=`${video.id}/edit`) Edit Video &rarr;
+        div
+            a(href=`${video.id}/delete`) Delete Video &rarr;
