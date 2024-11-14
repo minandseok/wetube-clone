@@ -4,7 +4,7 @@ block content
     if errorMessage 
         span=errorMessage
     form(method="post", enctype="multipart/form-data")
-        label(for="post") Video File 
+        label(for="video") Video File 
         input(type="file", accept="video/*", required, id="video", name="video")
         input(name="title" type="text" required placeholder="Title", maxLength=60, minLength=1)
         input(name="description" type="text" required placeholder="Description", maxLength=200)
