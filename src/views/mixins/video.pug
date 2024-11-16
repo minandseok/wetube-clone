@@ -1,5 +1,7 @@
 mixin video(video)
-    h4
-        a(href=`/video/${video.id}`)=video.title
-    small=video.date
-    hr
+    div.video-box
+        div.video-thumb
+        div.video-sub
+            h4
+                a(href=`/video/${video.id}`)=video.title
+            small=video.date

@@ -1,0 +1,45 @@
+.profile-box {
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .profile-box__top {
+        display: flex;
+        width: 500px;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        .profile-box__top__left {
+            width: 400px;
+            background: #1A1A1A; /* 어두운 배경 */
+            border-radius: 20px; /* 둥근 모서리 */
+            padding: 30px;
+            color: #FFFFFF; /* 텍스트 색상 */
+            font-family: 'Poppins', sans-serif; /* 폰트 설정 */
+            ul {
+                list-style: none; /* 목록 스타일 제거 */
+                padding: 0;
+                margin: 0;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+            ul li {
+            background: #1A1A1A;
+            padding: 10px 20px;
+            border-radius: 10px;
+            box-shadow: inset 6px 6px 6px #0C0C0C, inset -6px -6px 6px #141414; /* 내부 그림자 */
+            font-size: 14px;
+            color: #CCCCCC; /* 텍스트 색상 */
+            }
+        }
+        .profile-box__top__right {
+            
+        }
+    }
+      
+    .profile-box__bottom {
+        
+    }
+}

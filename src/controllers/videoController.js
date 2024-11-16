@@ -4,15 +4,18 @@ import User from "../models/User";
 
 export const home = async (req, res) => {
   // todo: 최신순(오름차순, 내림차순), 조회순, 좋아요 순
-  let videos = await Video.find({}).sort({ date: "desc" });
+  let videos = await Video.find({}).sort({ date: "desc" }).populate("owner");
 
+  // Search Video
   const { search } = req.query;
   if (search) {
     videos = await Video.find({
       title: {
         $regex: new RegExp(search, "i"), // search가 포함된 제목, 대소문자 구분 안함
       },
-    }).sort({ date: "desc" });
+    })
+      .sort({ date: "desc" })
+      .populate("owner");
   }
 
   return res

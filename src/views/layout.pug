@@ -4,30 +4,14 @@ html(lang="en")
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title #{siteName} | #{pageTitle}
-        link(rel="stylesheet" href="https://unpkg.com/mvp.css")
+        link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css")
         link(rel="stylesheet", href="/static/css/styles.css")
-
     body 
-        header
-            h1=pageTitle
-            nav 
-                ul 
-                    li 
-                        a(href="/") Home
-                    if loggedIn
-                        li 
-                            a(href=`/user/profile/${loggedInUser._id}`) #{loggedInUser.username}
-                        li 
-                            a(href="/video/upload") Upload
-                        li 
-                            a(href="/user/logout") Logout
-                    else
-                        li 
-                            a(href="/join") Join
-                        li 
-                            a(href="/login") Login
-        main 
-            block content
-
-        include includes/footer
+        div.body-left
+            include includes/header
+            include includes/footer
+        div.body-right
+            main 
+                block content
+            
         script(src="/static/js/main.js") 

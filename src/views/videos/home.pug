@@ -2,10 +2,14 @@ extends ../layout
 include ../mixins/video.pug
 
 block content
-    form
-        input(name="search" type="text" placeholder="Search" value=search ? search : "")
-        input(type="submit", value="Search")
-    ul
-        each video in videos
-            li
-                +video(video)
+    div.home
+        div.search-box
+            form.search-box__form
+                input(name="search" type="text" placeholder="Search" value=search ? search : "")
+                button(type="submit").search-box__form__btn-submit
+                    i(class="fa-solid fa-magnifying-glass" aria-hidden="true")
+                    span(class="sr-only") Search
+        ul.videos
+            each video in videos
+                li
+                    +video(video)

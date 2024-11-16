@@ -2,18 +2,24 @@ extends ../layout
 include ../mixins/video.pug
 
 block content
-    div 
-        ul 
-            li=loggedInUser.email
-            li=loggedInUser.name
-            li=loggedInUser.username
-    if isOwner
-        ul
-            li 
-                a(href="/user/edit") Edit
-            li 
-                a(href="/user/delete") Delete
-    each video in user.videos 
-        +video(video)
-    else 
-        span Not found.
+    div.profile-box
+        div.profile-box__top
+            div.profile-box__top__left
+                ul 
+                    li Email: #{loggedInUser.email}
+                    li Name: #{loggedInUser.name}
+                    li Username: #{loggedInUser.username}
+            div.profile-box__top__right
+                if isOwner
+                    ul
+                        li
+                            a(href="/user/edit") Edit
+                        li 
+                            a(href="/user/delete") Delete
+        div.profile-box__bottom
+            ul.videos
+                each video in user.videos 
+                    li
+                        +video(video)
+                else 
+                    span Not found.

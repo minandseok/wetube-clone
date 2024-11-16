@@ -1,0 +1,79 @@
+.form-box {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #0F0F0F; /* 전체 배경색 설정 */
+  
+    .form-box__border {
+      padding: 30px;
+      border-radius: 20px;
+      background: #1A1A1A; /* 어두운 배경 */
+  
+      form {
+        display: flex;
+        flex-direction: column;
+        width: 350px;
+        gap: 15px; /* 입력 필드 간격 */
+      }
+  
+      input {
+        background: #1A1A1A; /* 폼 내부 배경 */
+        padding: 10px;
+        padding-left: 20px;
+        height: 50px;
+        font-size: 14px;
+        color: #FFFFFF; /* 텍스트 색상 */
+        border-radius: 50px;
+        box-shadow: inset 6px 6px 6px #0C0C0C, inset -6px -6px 6px #141414; /* 기존 스타일에 맞춘 어두운 내부 그림자 */
+        outline: none;
+        border: none;
+        box-sizing: border-box;
+      }
+  
+      input::placeholder {
+        color: #CCCCCC; /* 플레이스홀더 색상 */
+      }
+  
+      input[type="submit"] {
+        color: #FFFFFF; /* 텍스트 하얀색 */
+        background: #FF0000; /* 버튼 빨간색 */
+        height: 40px;
+        font-size: 16px; /* 기본 글자 크기 */
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: 900;
+        box-shadow: 6px 6px 6px #0C0C0C, -6px -6px 6px #141414; /* 버튼 그림자 유지 */
+        transition: box-shadow 0.3s, transform 0.2s, font-size 0.2s; /* 부드러운 효과 추가 */
+      }
+  
+      input[type="submit"]:hover {
+        box-shadow: none; /* Hover 시 그림자 제거 */
+        transform: scale(0.95); /* 버튼 축소 */
+        font-size: 15px; /* 글자 크기 살짝 축소 */
+      }
+    }
+  
+    .other-method {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 20px;
+  
+      a {
+        font-size: 14px;
+        text-decoration: none;
+        color: #FF0000; /* 빨간색 링크 */
+        font-weight: bold;
+        transition: color 0.3s ease;
+      }
+  
+      a:hover {
+        color: #CC0000; /* 어두운 빨간색으로 변경 */
+      }
+    }
+  }
