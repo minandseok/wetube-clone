@@ -10,7 +10,12 @@
 
 // Sreens
 @use "./screens/videos/home.scss";
+@use "./screens/videos/watch-video.scss";
+@use "./screens/videos/edit-video.scss";
 @use "./screens/users/profile.scss";
+@use "./screens/users/create-password.scss";
+@use "./screens/users/edit-profile.scss";
+@use "./screens/users/change-password.scss";
 
 // Defaults
 
@@ -38,11 +43,13 @@ body {
     justify-content: space-between;
     height: 100%;
     border-right: 0.5px solid;
+    margin-left: -15px;
   }
 
   .body-right {
     height: 100%;
     width: 100%;
+    margin-right: -15px;
   }
 
   main {

@@ -1,8 +1,11 @@
 extends ../layout 
 
 block content 
-    form(method="post") 
-        input(name="title" type="text" placeholder="Video Title", value=video.title, required, maxLength=60, minLength=1)
-        input(name="description" type="text" placeholder="Description" value=video.description, maxLength=200)
-        input(name="hashtags" type="text" placeholder="Hashtags (Separated by comma.)" value=video.hashtags.join())
-        input(type="submit", value="Save")
+    div.edit-video
+        div.form-box
+            div.form-box__border
+                form(method="post") 
+                    input(name="title" type="text" placeholder="Video Title", value=video.title, required, maxLength=60, minLength=1)
+                    input(name="description" type="text" placeholder="Description" value=video.description, maxLength=200)
+                    input(name="hashtags" type="text" placeholder="Hashtags (Separated by comma.)" value=video.hashtags.join())
+                    input(type="submit", value="Edit")

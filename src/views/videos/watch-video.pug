@@ -1,17 +1,23 @@
 extends ../layout 
 
 block content 
-    video(src="/" + video.fileUrl, controls)
-    div 
-        p=video.description
-        small=video.date
-    each hashtag in video.hashtags
-        small=hashtag
-    div 
-        small Uploaded By 
-        a(href=`/user/profile/${video.owner._id}`)=video.owner.name
-    if String(video.owner._id) === String(loggedInUser._id)
-        div
-            a(href=`${video.id}/edit`) Edit Video &rarr;
-        div
-            a(href=`${video.id}/delete`) Delete Video &rarr;
+    div.watch-video
+        div.watch-video__left
+            video(src="/" + video.fileUrl, controls)
+            div.video-info
+                div.video-info__left
+                    div
+                        p Description: #{video.description}
+                        small Date: #{video.date}
+                    each hashtag in video.hashtags
+                        small=hashtag
+                    div.video-info__left__owner
+                        small Uploaded By 
+                        a(href=`/user/profile/${video.owner._id}`)=video.owner.name
+                div.video-info__right
+                    if String(video.owner._id) === String(loggedInUser._id)
+                        div
+                            a(href=`${video.id}/edit`) Edit Video
+                        div
+                            a(href=`${video.id}/delete`) Delete Video
+        div.watch-video__right

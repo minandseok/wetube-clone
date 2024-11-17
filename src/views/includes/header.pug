@@ -5,7 +5,11 @@ header
         ul
             if loggedIn
                 li 
-                    a(href=`/user/profile/${loggedInUser._id}`) #{loggedInUser.username}
+                    a(href=`/user/profile/${loggedInUser._id}`)
+                        if loggedInUser.avatarUrl === ""
+                            span 😀
+                        else
+                            img.header__avatar(src="/" + loggedInUser.avatarUrl)
                 li 
                     a(href="/video/upload") Upload
                 li 
