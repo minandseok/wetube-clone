@@ -1,0 +1,11 @@
+.videoContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .videoControls {
+        display: flex;
+    }
+    video {
+        width: 90%;
+    }
+}

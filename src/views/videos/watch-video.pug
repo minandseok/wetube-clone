@@ -2,22 +2,40 @@ extends ../layout
 
 block content 
     div.watch-video
-        div.watch-video__left
-            video(src="/" + video.fileUrl, controls)
-            div.video-info
-                div.video-info__left
+        div#videoContainer.videoContainer
+            video(src=`/${video.fileUrl}`)
+            div#videoControls.videoControls
+                div.videoControls__play
+                    span#play.videoControls__playBtn
+                        i.fas.fa-play
+                    div.videoControls__time
+                        span#currenTime 00:00
+                        span  / 
+                        span#totalTime 00:00
+                input(type="range",step="1", value="0", min="0")#timeline.videoControls__timeline
+                div.videoControls__volume
+                    input(type="range",step="0.1", value=0.5, min="0", max="1")#volume
+                    span#mute
+                        i.fas.fa-volume-up
                     div
-                        p Description: #{video.description}
-                        small Date: #{video.date}
-                    each hashtag in video.hashtags
-                        small=hashtag
-                    div.video-info__left__owner
-                        small Uploaded By 
-                        a(href=`/user/profile/${video.owner._id}`)=video.owner.name
-                div.video-info__right
-                    if String(video.owner._id) === String(loggedInUser._id)
-                        div
-                            a(href=`${video.id}/edit`) Edit Video
-                        div
-                            a(href=`${video.id}/delete`) Delete Video
-        div.watch-video__right
+                        span#fullScreen
+                            i.fas.fa-expand
+        div.video-info
+            div.video-info__left
+                div
+                    p Description: #{video.description}
+                    small Date: #{video.date}
+                each hashtag in video.hashtags
+                    small=hashtag
+                div.video-info__left__owner
+                    small Uploaded By 
+                    a(href=`/user/profile/${video.owner._id}`)=video.owner.name
+            div.video-info__right
+                if String(video.owner._id) === String(loggedInUser._id)
+                    div
+                        a(href=`${video.id}/edit`) Edit Video
+                    div
+                        a(href=`${video.id}/delete`) Delete Video
+
+block scripts
+    script(src="/static/js/videoPlayer.js") 

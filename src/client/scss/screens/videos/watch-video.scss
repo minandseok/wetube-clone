@@ -1,53 +1,41 @@
 .watch-video {
     width: 100%;
     display: flex;
-    justify-content: center;
-    .watch-video__left {
+    flex-direction: column;
+    .video-info {
         display: flex;
-        flex-direction: column;
+        justify-content: space-between;
         align-items: center;
-        video {
-            width: calc(100vw - 25%);
-        }
-        .video-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: calc(100vw - 25%);
-            margin-top: 10px;
+        margin-top: 10px;
 
-            .video-info__left {
-                width: 100%;
-                border-right: 0.5px solid white;
-                margin-right: 75px;
-                .video-info__left__owner {
-                    a {
-                        font-weight: 600;
-                    }
-                }
-            }
-
-            .video-info__right {
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-            
+        .video-info__left {
+            width: 100%;
+            border-right: 0.5px solid white;
+            margin-right: 75px;
+            .video-info__left__owner {
                 a {
-                    font-size: 14px;
-                    text-decoration: none;
-                    color: #FF0000; /* 빨간색 링크 */
-                    font-weight: bold;
-                    transition: color 0.3s ease;
-                }
-            
-                a:hover {
-                    color: #CC0000; /* 어두운 빨간색으로 변경 */
+                    font-weight: 600;
                 }
             }
         }
-    }
-    .watch-video__right {
 
+        .video-info__right {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        
+            a {
+                font-size: 14px;
+                text-decoration: none;
+                color: #FF0000; /* 빨간색 링크 */
+                font-weight: bold;
+                transition: color 0.3s ease;
+            }
+        
+            a:hover {
+                color: #CC0000; /* 어두운 빨간색으로 변경 */
+            }
+        }
     }
 }
