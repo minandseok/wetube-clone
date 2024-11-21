@@ -2,7 +2,7 @@ extends ../layout
 
 block content 
     div.watch-video
-        div#videoContainer.videoContainer
+        div#videoContainer.videoContainer(data-id=video._id)
             video(src=`/${video.fileUrl}`)
             div#videoControls.videoControls
                 div.videoControls__play
@@ -18,13 +18,16 @@ block content
                     span#mute
                         i.fas.fa-volume-up
                     div
-                        span#fullScreen
+                        span#fullScreen.fullScreen
                             i.fas.fa-expand
         div.video-info
             div.video-info__left
                 div
                     p Description: #{video.description}
-                    small Date: #{video.date}
+                    div
+                        small Date: #{video.date}
+                    div
+                        small #{video.meta.views} 회
                 each hashtag in video.hashtags
                     small=hashtag
                 div.video-info__left__owner

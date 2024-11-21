@@ -1,5 +1,12 @@
 import mongoose from "mongoose";
 
+function formatDate(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}.${month}.${day}`;
+}
+
 const videoSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -10,7 +17,7 @@ const videoSchema = new mongoose.Schema({
   },
   fileUrl: { type: String, required: true },
   description: { type: String, required: true, trim: true, maxLength: 200 },
-  date: { type: Date, required: true, default: Date.now },
+  date: { type: Date, required: true, default: Date.now, get: formatDate },
   hashtags: [{ type: String }],
   meta: {
     views: { type: Number, required: true, default: 0 },

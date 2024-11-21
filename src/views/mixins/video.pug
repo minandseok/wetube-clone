@@ -5,3 +5,4 @@ mixin video(video)
             h4
                 a(href=`/video/${video.id}`)=video.title
             small=video.date
+            small #{video.meta.views} 회

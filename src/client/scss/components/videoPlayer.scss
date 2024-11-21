@@ -1,11 +1,64 @@
+@use "../config/variables" as v;
+
 .videoContainer {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    .videoControls {
-        display: flex;
-    }
+    position: relative;
+    overflow: hidden;
+    width: 91%;
+
     video {
-        width: 90%;
+        width: 100%;
+        border-radius: 10px;
+    }
+
+    .videoControls.showing {
+        opacity: 1;
+    }
+
+    .videoControls {
+        border: solid;
+        opacity: 0;
+        width: 100%;
+        display: flex;
+        position: absolute;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 20px;
+        bottom: 0px;
+        padding: 5px 10px;
+        background-color: #8d99ae;
+        border: none;
+        transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        transform: translateY(10px);
+
+        &.showing {
+            transform: translateY(0);
+        }
+
+        .videoControls__play {
+            display: flex;
+            align-items: center; 
+            width: 15%;
+
+            .videoControls__playBtn {
+                margin-right: 10px;
+            }
+        }
+
+        .videoControls__timeline {
+            width: 100%;
+        }
+
+        .videoControls__volume {
+            display: flex;
+            align-items: center;
+
+            .fullScreen {
+                margin-left: 10px;
+            }
+        }
     }
 }
