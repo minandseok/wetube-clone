@@ -1,0 +1,14 @@
+.recording-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .preview {
+        
+    }
+    
+    .actionBtn {
+        margin: 10px;
+        width: 20%;
+        height: 40px;
+    }
+}

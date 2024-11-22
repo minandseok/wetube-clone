@@ -30,14 +30,15 @@ export const getUploadVideo = (req, res) => {
 export const postUploadVideo = async (req, res) => {
   // todo: user의 업로드한 비디오로 이동하기
   const { user: _id } = req.session;
-  const { path: fileUrl } = req.file;
+  const { video, thumb } = req.files;
   const { title, description, hashtags } = req.body;
   try {
     const newVideo = await Video.create({
       title,
       description,
       // todo: 해시태그를 +버튼을 누르고 각각 추가하기
-      fileUrl,
+      fileUrl: video[0].path,
+      thumbUrl: thumb[0].path.replace(/[\\]/g, "/"),
       hashtags: Video.formatHashtags(hashtags),
       owner: _id,
     });

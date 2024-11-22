@@ -1,6 +1,6 @@
 mixin video(video)
     div.video-box
-        div.video-thumb
+        div.video-thumb(style=`background-image:url(${video.thumbUrl});background-size:cover;background-position:center;`)
         div.video-sub
             h4
                 a(href=`/video/${video.id}`)=video.title

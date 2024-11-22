@@ -17,6 +17,12 @@ app.set("views", `${process.cwd()}/src/views`);
 app.set("x-powered-by", false);
 app.use(express.urlencoded({ extended: true }));
 
+app.use((req, res, next) => {
+  res.header("Cross-Origin-Embedder-Policy", "require-corp");
+  res.header("Cross-Origin-Opener-Policy", "same-origin");
+  next();
+});
+
 // session middleware
 app.use(
   session({
