@@ -7,6 +7,7 @@ import session from "express-session";
 import { localsMiddleware } from "./middlewares";
 import MongoStore from "connect-mongo";
 import apiRouter from "./routers/apiRouter";
+import flash from "express-flash";
 
 const logger = morgan("dev");
 
@@ -33,6 +34,7 @@ app.use(
   })
 );
 
+app.use(flash());
 app.use(localsMiddleware);
 app.use(logger);
 app.use("/uploads", express.static("uploads"));

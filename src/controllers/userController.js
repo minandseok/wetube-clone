@@ -155,6 +155,7 @@ export const finishGitHubLogin = async (req, res) => {
 
 export const logout = (req, res) => {
   req.session.destroy();
+  req.flash("info", "Bye Bye");
   return res.redirect("/");
 };
 
@@ -355,7 +356,7 @@ export const postChangePassword = async (req, res) => {
   );
 
   req.session.user = updateUser;
-
+  req.flash("info", "Password updated");
   return res.redirect("/user/edit");
 };
 
