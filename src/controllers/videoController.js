@@ -1,5 +1,5 @@
-import session from "express-session";
 import Video from "../models/Video";
+import Comment from "../models/Comment";
 import User from "../models/User";
 
 export const home = async (req, res) => {
@@ -57,7 +57,7 @@ export const postUploadVideo = async (req, res) => {
 
 export const watchVideo = async (req, res) => {
   const { id } = req.params;
-  const video = await Video.findById(id).populate("owner");
+  const video = await Video.findById(id).populate("owner").populate("comments");
 
   if (!video) {
     return res.status(400).render("404", { pageTitle: "Video not found." });
@@ -134,4 +134,63 @@ export const registerView = async (req, res) => {
   video.meta.views = video.meta.views + 1;
   await video.save();
   return res.sendStatus(200);
+};
+
+export const createComment = async (req, res) => {
+  const {
+    session: { user },
+    body: { text },
+    params: { id },
+  } = req;
+  const video = await Video.findById(id);
+  if (!video) {
+    return res.sendStatus(404);
+  }
+  const comment = await Comment.create({
+    text,
+    owner: user._id,
+    video: id,
+  });
+  video.comments.push(comment._id);
+  video.save();
+  return res.status(201).json({ newCommentId: comment._id });
+};
+
+export const deleteComment = async (req, res) => {
+  const {
+    params: { id: commentId },
+    session: { user },
+  } = req;
+
+  try {
+    // 댓글 찾기
+    const comment = await Comment.findById(commentId);
+
+    if (!comment) {
+      return res.status(404).json({ message: "Comment not found." });
+    }
+
+    // 댓글 작성자 확인
+    if (String(comment.owner) !== String(user._id)) {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
+
+    // 댓글 삭제
+    await Comment.findByIdAndDelete(commentId);
+
+    // 비디오에서 댓글 참조 제거
+    await Video.findByIdAndUpdate(comment.video, {
+      $pull: { comments: commentId },
+    });
+
+    // 유저에서 댓글 참조 제거
+    await User.findByIdAndUpdate(comment.owner, {
+      $pull: { comments: commentId },
+    });
+
+    return res.status(200).json({ message: "Comment deleted." });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error." });
+  }
 };

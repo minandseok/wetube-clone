@@ -40,4 +40,30 @@
             }
         }
     }
+    .video__comments {
+        display: flex;
+        flex-direction: column;
+        max-width: 320px;
+        width: 100%;
+        margin: 0 auto;
+        margin-top: 20px;
+        
+        .video__comment {
+          padding: 10px;
+          border-radius: 9999px;
+          background-color: white;
+          color: black;
+          margin-bottom: 10px;
+          display: flex;
+          justify-content: space-between;
+          .deleteCommentBtn {
+            border: 1px solid;
+            border-radius: 100px;
+            &:hover {
+                cursor: pointer;
+            }
+          }
+        }
+
+      }
 }

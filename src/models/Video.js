@@ -24,6 +24,9 @@ const videoSchema = new mongoose.Schema({
     views: { type: Number, required: true, default: 0 },
   },
   owner: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" },
+  comments: [
+    { type: mongoose.Schema.Types.ObjectId, required: true, ref: "Comment" },
+  ],
 });
 
 // todo: 해시태그 양쪽 띄어쓰기 없애기
