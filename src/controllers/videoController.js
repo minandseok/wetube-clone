@@ -37,8 +37,8 @@ export const postUploadVideo = async (req, res) => {
       title,
       description,
       // todo: 해시태그를 +버튼을 누르고 각각 추가하기
-      fileUrl: video[0].path,
-      thumbUrl: thumb[0].path.replace(/[\\]/g, "/"),
+      fileUrl: video[0].location,
+      thumbUrl: thumb[0].location.replace(/[\\]/g, "/"),
       hashtags: Video.formatHashtags(hashtags),
       owner: _id,
     });
@@ -87,15 +87,17 @@ export const getEditVideo = async (req, res) => {
 };
 
 export const postEditVideo = async (req, res) => {
+  const { id } = req.params;
   const {
     user: { _id },
   } = req.session;
-  const { id } = req.params;
   const { title, description, hashtags } = req.body;
   const video = await Video.exists({ _id: id });
+
   if (!video) {
     return res.status(400).render("404", { pageTitle: "Video not found." });
   }
+
   if (String(video.owner) !== String(_id)) {
     req.flash("error", "You are not the the owner of the video.");
     return res.status(403).redirect("/");

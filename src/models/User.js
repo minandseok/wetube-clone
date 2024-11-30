@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-  avatarUrl: String,
+  avatarUrl: { type: String, default: "" },
   email: { type: String, required: true, unique: true },
   name: { type: String, required: true },
   username: { type: String, required: true, unique: true },
@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.pre("save", async function () {
-  if (this.isModified("password")) {
+  if (this.isModified("password") && this.password !== "") {
     this.password = await bcrypt.hash(this.password, 5);
   }
 });

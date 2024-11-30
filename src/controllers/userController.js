@@ -1,7 +1,5 @@
-import session from "express-session";
 import User from "../models/User";
 import bcrypt from "bcrypt";
-import Video from "../models/Video";
 
 // todo: session에 user의 비밀번호가 저장되지 않도록 하자.
 
@@ -247,6 +245,7 @@ export const postEditProfile = async (req, res) => {
     body: { email, name, username, password },
     file,
   } = req;
+
   const pageTitle = "Edit Profile";
 
   // 현재 비밀번호 확인
@@ -286,7 +285,7 @@ export const postEditProfile = async (req, res) => {
   const updateUser = await User.findByIdAndUpdate(
     _id,
     {
-      avatarUrl: file ? file.path : avatarUrl,
+      avatarUrl: file ? file.location : avatarUrl,
       email,
       name,
       username,
