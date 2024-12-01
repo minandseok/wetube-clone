@@ -50,4 +50,9 @@
               
         }
     }
+    .videos {
+        display: flex; /* Flexbox 활성화 */
+        justify-content: flex-start; /* 요소들을 왼쪽 정렬 */
+        align-items: flex-start; /* 세로 정렬도 시작점에서 정렬 (필요시 조정 가능) */
+    }
 }
